@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-reactive',
@@ -11,6 +11,7 @@ export class ReactiveComponent implements OnInit {
   forma!:FormGroup;
   constructor(private form: FormBuilder) {
     this.crearFormulario();
+    this.cargarDataAlFormulario();
    }
 
   ngOnInit(): void {
@@ -34,6 +35,9 @@ export class ReactiveComponent implements OnInit {
   get ciudadNoValido(){
     return this.forma.get('direccion.ciudad')?.invalid && this.forma.get('direccion.ciudad')?.touched;
   }
+  get pasatiempos(){
+   return this.forma.get('pasatiempos') as FormArray
+  }
 
   crearFormulario(){
     this.forma = this.form.group({
@@ -44,8 +48,16 @@ export class ReactiveComponent implements OnInit {
       direccion:this.form.group({
         distrito: ["",[Validators.required]],
         ciudad  : ["",[Validators.required]],
-      })
+      }),
+      pasatiempos:this.form.array([
+      ])
     })
+  }
+  agreagrPasatiempo(){
+    this.pasatiempos.push(this.form.control('', [Validators.minLength(3)]))
+  }
+  borrarPasatiempo(i:any){
+    this.pasatiempos.removeAt(i);
   }
   onSubmit(){
     if(this.forma.invalid){
@@ -58,6 +70,21 @@ export class ReactiveComponent implements OnInit {
       }
       )};
     console.log(this.forma.value)
+    this.forma.reset()
+    // this.forma.reset();
   }
-
+  cargarDataAlFormulario(){
+    this.forma.reset( {
+      nombre: "Jesus David",
+      apellido: "Garcia Hernandez",
+      genero: "M",
+      email: "yisusgarcia100@gmail.com",
+      direccion: {
+        distrito: "Cordoba",
+        ciudad: "Monteria"
+      },
+    });
+    ['Comer', 'Jugar']
+    .forEach?.((valor:any) => this.pasatiempos.push( this.form.control(valor)))
+  }
 }
