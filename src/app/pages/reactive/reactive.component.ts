@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ValiadadoresService } from 'src/app/services/valiadadores.service';
 
 @Component({
   selector: 'app-reactive',
@@ -9,7 +10,8 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class ReactiveComponent implements OnInit {
 
   forma!:FormGroup;
-  constructor(private form: FormBuilder) {
+  constructor(private form: FormBuilder,
+              private validadores: ValiadadoresService) {
     this.crearFormulario();
     this.cargarDataAlFormulario();
    }
@@ -38,19 +40,31 @@ export class ReactiveComponent implements OnInit {
   get pasatiempos(){
    return this.forma.get('pasatiempos') as FormArray
   }
+  get pass1NoValido(){
+   return this.forma.get('pass1')?.invalid && this.forma.get('pass1')?.touched;
+  }
+  get pass2NoValido(){ 
+    const pass1 =this.forma.get('pass1')?.value;
+    const pass2 =this.forma.get('pass2')?.value;
+    return (pass1===pass2) ? false : true;
+   }
+
 
   crearFormulario(){
     this.forma = this.form.group({
       nombre   :["",   [Validators.required, Validators.minLength(3)]],
-      apellido :["",   [Validators.required, Validators.minLength(3)]],
+      apellido :["",   [Validators.required, Validators.minLength(3), this.validadores.noHerrera]],
       genero   :["",   [Validators.required]],
       email    :["",   [Validators.required, Validators.pattern("[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$")]],
+      pass1    :["",   [Validators.required, Validators.minLength(3)]],
+      pass2    :["",   [Validators.required, Validators.minLength(3)]],
       direccion:this.form.group({
         distrito: ["",[Validators.required]],
         ciudad  : ["",[Validators.required]],
       }),
-      pasatiempos:this.form.array([
-      ])
+      pasatiempos:this.form.array([])
+    },{
+      validators : this.validadores.passwordIguales('pass1', 'pass2')
     })
   }
   agreagrPasatiempo(){
@@ -60,6 +74,7 @@ export class ReactiveComponent implements OnInit {
     this.pasatiempos.removeAt(i);
   }
   onSubmit(){
+    // console.log(this.forma)
     if(this.forma.invalid){
       return Object.values(this.forma.controls).forEach(controls=>{
         if(controls instanceof FormGroup){

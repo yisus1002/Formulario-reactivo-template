@@ -52,6 +52,42 @@
              placeholder="Correo electrónico">
     </div>
   </div>
+
+  <div class="form-group row mb-3">
+    <label class="col-2 col-form-label">Contraseña</label>
+    <div class="col-8">
+      <input class="form-control"
+             [class.is-invalid]="pass1NoValido"
+             [class.is-valid]="(this.forma.get('pass1')?.valid )"
+             type="text"
+             name="passwordor1"
+             placeholder="contraseña"
+             formControlName="pass1"
+             id="">
+
+    </div>
+  </div>
+  <div class="form-group row mb-3">
+    <label class="col-2 col-form-label">Repita contraseña</label>
+    <div class="col-8">
+      <input class="form-control"
+      [class.is-invalid]="pass2NoValido"
+      [class.is-valid]="!pass2NoValido && this.forma.get('pass2')?.touched"
+             type="text"
+             name="passwordor2"
+             placeholder="Repita la contraseña"
+             formControlName="pass2"
+             id="">
+
+    </div>
+  </div>
+  <!-- <div class="form-group row mb-3">
+    <label class="col-2 col-form-label">Dirección</label>
+    <div class="col-8">
+
+    </div>
+  </div> -->
+
   <div class="form-group row mb-3" formGroupName="direccion">
     <label class="col-2 col-form-label">Dirección</label>
     <div class="col-8 d-flex">
