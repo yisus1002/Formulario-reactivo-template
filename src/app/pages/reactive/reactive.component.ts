@@ -14,6 +14,7 @@ export class ReactiveComponent implements OnInit {
               private validadores: ValiadadoresService) {
     this.crearFormulario();
     this.cargarDataAlFormulario();
+    this.crearListenes();
    }
 
   ngOnInit(): void {
@@ -43,6 +44,17 @@ export class ReactiveComponent implements OnInit {
   get pass1NoValido(){
    return this.forma.get('pass1')?.invalid && this.forma.get('pass1')?.touched;
   }
+  get usuarioNovalido(){
+  //  return {
+    if(this.forma.get('usuario')?.value<=0 && this.forma.get('usuario')?.touched){
+      return this.forma.get('usuario')?.setErrors({
+        vacio:true
+      });
+    }else{
+      return  this.forma.get('usuario')?.invalid && this.forma.get('usuario')?.touched;
+    }
+  //  }
+  }
   get pass2NoValido(){ 
     const pass1 =this.forma.get('pass1')?.value;
     const pass2 =this.forma.get('pass2')?.value;
@@ -62,19 +74,36 @@ export class ReactiveComponent implements OnInit {
         distrito: ["",[Validators.required]],
         ciudad  : ["",[Validators.required]],
       }),
-      pasatiempos:this.form.array([])
+      pasatiempos:this.form.array([]),
+      usuario    :["",[Validators.required], [this.validadores.existeUsuario]]  
     },{
       validators : this.validadores.passwordIguales('pass1', 'pass2')
     })
   }
+  crearListenes(){
+    //Para saber los valores cambiados del formulario
+    this.forma.valueChanges.subscribe(valor=>{
+      console.log(valor)
+    });
+    //Para saber el status del formulario
+    this.forma.statusChanges.subscribe(estatus=>{
+      console.log({estatus})
+    });
+    // Para saber un campo en especifico del formulario
+    this.forma.get('nombre')?.valueChanges.subscribe(console.log)
+
+  }
+
   agreagrPasatiempo(){
     this.pasatiempos.push(this.form.control('', [Validators.minLength(3)]))
   }
   borrarPasatiempo(i:any){
     this.pasatiempos.removeAt(i);
   }
+
+
   onSubmit(){
-    // console.log(this.forma)
+    console.log(this.forma)
     if(this.forma.invalid){
       return Object.values(this.forma.controls).forEach(controls=>{
         if(controls instanceof FormGroup){
@@ -98,8 +127,11 @@ export class ReactiveComponent implements OnInit {
         distrito: "Cordoba",
         ciudad: "Monteria"
       },
+      pass1: "12345",
+      pass2: "12345",
     });
     ['Comer', 'Jugar']
     .forEach?.((valor:any) => this.pasatiempos.push( this.form.control(valor)))
   }
+  
 }

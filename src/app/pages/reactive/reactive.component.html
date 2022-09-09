@@ -52,6 +52,20 @@
              placeholder="Correo electrónico">
     </div>
   </div>
+    <div class="form-group row mb-3">
+    <label class="col-2 col-form-label">Usuario</label>
+    <div class="col-8">
+      <small *ngIf="usuarioNovalido" class="form-text text-danger">Este nombre de usuario ya existe</small>
+      <small *ngIf="this.forma.get('usuario')?.errors?.['vacio']" class="form-text text-danger">Ingrese un nombre de usuario</small>
+      <input class="form-control"
+        [class.is-invalid]="usuarioNovalido"
+        [class.is-valid]="this.forma.get('usuario')?.valid"
+        type="text" name="usuario"
+        placeholder="Ingese su usuario"
+        formControlName="usuario"
+        >
+    </div>
+  </div>
 
   <div class="form-group row mb-3">
     <label class="col-2 col-form-label">Contraseña</label>
