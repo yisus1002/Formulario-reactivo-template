@@ -10,10 +10,10 @@
       <label class="col-2 col-form-label">Nombre</label>
       <div class="col-8">
         <small *ngIf="nombreNoValido" class="form-text text-danger">El nombre no es valido</small>
-        <input class="form-control" 
+        <input class="form-control"
                [class.is-invalid]="nombreNoValido"
                [class.is-valid]="this.forma.get('nombre')?.valid"
-               type="text" 
+               type="text"
                id="nombre"
                name="nombre"
                formControlName="nombre"
@@ -28,7 +28,7 @@
         <input class="form-control"
               [class.is-invalid]="apellidoNoValido"
               [class.is-valid]="this.forma.get('apellido')?.valid"
-               type="text" 
+               type="text"
                id="apellido"
                name="apellido"
                formControlName="apellido"
@@ -106,29 +106,29 @@
     <label class="col-2 col-form-label">Dirección</label>
     <div class="col-8 d-flex">
       <div class="col me-1">
-        <input type="text" 
+        <input type="text"
               name="distrito"
               class="form-control"
               [class.is-invalid]="distritoNoValido"
               [class.is-valid]="this.forma.get('direccion.distrito')?.valid"
               formControlName="distrito"
-              placeholder="distrito"          
+              placeholder="distrito"
         >
       </div>
       <div class="col ms-1">
         <input type="text"
-              name="ciudad" 
+              name="ciudad"
               class="form-control"
               [class.is-invalid]="ciudadNoValido"
               [class.is-valid]="this.forma.get('direccion.ciudad')?.valid"
               formControlName="ciudad"
-              placeholder="ciudad"          
+              placeholder="ciudad"
         >
       </div>
     </div>
   </div>
   <div class="form-group row mb-3">
-    <label class="col-2 col-form-label">Dirección</label>
+    <label class="col-2 col-form-label">Genero</label>
     <div class="col-8">
       <div class="d-flex" >
         <div class="form-check form-check-inline">
@@ -149,10 +149,10 @@
           <input class="form-check-input"
                 [class.is-invalid]="generoNoValido"
                 [class.is-valid]="this.forma.get('genero')?.valid"
-                 type="radio" 
-                 name="genero" 
+                 type="radio"
+                 name="genero"
                  id="m"
-                 value="F" 
+                 value="F"
                  formControlName="genero"
                  >
           <label class="form-check-label" for="m">
@@ -177,7 +177,7 @@
           <tr *ngFor="let control of pasatiempos.controls; let i = index">
             <td scope="row">{{i + 1}}</td>
             <td>
-              <input class="form-control" 
+              <input class="form-control"
                 type="text"
                 [formControlName]="i"
                 >
@@ -186,8 +186,8 @@
               <div class="d-flex">
                 <button class="btn btn-sm border-0 p-0 "
                 style="margin: 0 auto;"
-                type="button" 
-                (click)="borrarPasatiempo(i)" 
+                type="button"
+                (click)="borrarPasatiempo(i)"
                   ><i class=" fa-solid fa-trash"
                     style="color:rgb(244, 48, 48);">
                   </i>
